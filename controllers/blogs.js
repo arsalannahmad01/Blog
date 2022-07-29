@@ -10,14 +10,13 @@ const createBlog = async (req, res) => {
 
 const getAllBlogs = async (req, res) => {
     const blogs = await Blog.find({ createdBy: req.user.id })
-    res.status(StatusCodes.OK).json({ blogs, count: blogs.length })
+    res.status(StatusCodes.OK).json({ blogs: blogs, count: blogs.length })
 }
 
 const getBlog = async (req, res) => {
     const { user: { _id }, params: { id: blogId } } = req
 
-    const blog = await Blog.find({ _id: blogId, createdBy: _id })
-    console.log(blog);
+    const blog = await Blog.findOne({ _id: blogId, createdBy: _id })
     if (!blog) {
         throw new NotFoundError(`No job with id ${blogId}`)
     }
@@ -26,19 +25,20 @@ const getBlog = async (req, res) => {
 }
 
 const updateBlog = async (req, res) => {
+
     const {
         body: { title, body },
         user: { _id },
         params: { id: blogId }
     } = req
 
-
+    console.log(body);
 
     if (title === '' || body === '') {
         throw new BadRequestError('Title or body field cannt be emapty')
     }
 
-    const blog = await Blog.findByIdAndUpdate({ _id: blogId, createdBy: _id }, req.body, { new: true, runValidators: true })
+    const blog = await Blog.findByIdAndUpdate({ _id: blogId, createdBy: _id }, {title, body}, { new: true, runValidators: true })
 
     if (!blog) {
         throw new NotFoundError(`No blog with id ${blogId}`)
