@@ -15,6 +15,11 @@ const BlogsSchema = new mongoose.Schema({
         ref:'User',
         required:[true, 'Please provide user'],
         createdAt:Date
+    },
+    sharedWith:{
+        type:[mongoose.Types.ObjectId],
+        ref:'User',
+        // sharedAt:Date
     }
 })
 

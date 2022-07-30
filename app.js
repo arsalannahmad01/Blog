@@ -17,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/v1/users', authRouter)
 app.use('/api/v1/blogs', authMiddleware ,blogsRouter)
+// app.use('/api/v1/blogs/:id/share', authMiddleware ,blogsRouter)
 
 
 app.use(notFoundMiddleware)

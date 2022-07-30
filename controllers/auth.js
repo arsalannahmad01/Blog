@@ -5,7 +5,7 @@ const registerUser = async (req, res) => {
     const user = await User.create(req.body);
 
     const token = user.createJWT();
-    res.status(201).json({ success: true, user: user, token: token });
+    res.status(201).json({ success: true, name: user.name, token: token });
 }
 
 
@@ -16,7 +16,6 @@ const login = async (req, res) => {
     if (!email || !password) {
         throw new BadRequestError('Please provide email and password')
     }
-
 
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -29,7 +28,7 @@ const login = async (req, res) => {
     }
 
     const token = user.createJWT();
-    res.status(201).json({ token: token })
+    res.status(201).json({ token: token , name: user.name})
 }
 
 module.exports = { registerUser, login }
