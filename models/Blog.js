@@ -12,15 +12,15 @@ const BlogsSchema = new mongoose.Schema({
     },
     createdBy:{
         type:mongoose.Types.ObjectId,
-        ref:'User',
+        ref:'user',
         required:[true, 'Please provide user'],
         createdAt:Date
     },
     sharedWith:{
         type:[mongoose.Types.ObjectId],
-        ref:'User',
+        ref:'user',
         // sharedAt:Date
     }
-})
+},{timestamps:true})
 
 module.exports = mongoose.model('blog', BlogsSchema)

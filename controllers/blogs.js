@@ -10,14 +10,14 @@ const createBlog = async (req, res) => {
 }
 
 const getAllBlogs = async (req, res) => {
-    const blogs = await Blog.find({ $or: [{ createdBy: req.user._id }, { sharedWith: req.user._id }] })
+    const blogs = await Blog.find({ $or: [{ createdBy: req.user._id }, { sharedWith: req.user._id }] }).populate({ path: 'createdBy', select: '_id name' })
     res.status(StatusCodes.OK).json({ blogs: blogs, count: blogs.length })
 }
 
 const getBlog = async (req, res) => {
     const { user: { _id }, params: { id: blogId } } = req
 
-    const blog = await Blog.findOne({ _id: blogId })
+    const blog = await Blog.findOne({ _id: blogId }).populate({ path: 'createdBy', select: '_id name' })
     if (!blog) {
         throw new NotFoundError(`No job with id ${blogId}`)
     }
